@@ -1,12 +1,26 @@
-   $primary-color: #272727;
-    $accent-color: #ff652f;
-    $text-color: #fff;
-    $font-weights: (
-        "regular": 400, 
-        "medium" : 500,
-        "bold": 700
-    );
+   @import './scss/resets';
+   @import './scss/variables';
 
+   //partials are the different css files broken down to smaller pieces. 
+   //This function returns map-get function which modifies font-weights variable and changes that according to weight name inputed to function
+
+@function weight($weight-name) {
+  @return map-get($font-weights, $weight-name);
+}
+//mixins should define style as in
+@mixin flexCenter($direction) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+@mixin theme($light-theme: true) {
+  @if $light-theme {
+    background: lighten($primary-color, 100%);
+    color: darken($text-color, 100%);
+  }
+}
 
 body {
     background: $primary-color;
@@ -14,11 +28,12 @@ body {
 }
 
 .main {
+  @include flexCenter(row);
   width: 80%;
   margin: 0 auto;  
 
   #{&}_paragraph {
-    font-weight: map-get($font-weights, bold);
+    font-weight: weight(bold);
 
     &:hover {
         color: pink;
@@ -26,3 +41,6 @@ body {
   }
 }
 
+.light {
+  @include theme($light-theme: true);
+}
